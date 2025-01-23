@@ -108,21 +108,31 @@
     <script>
         document.getElementById('commentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+
             const recipient = document.getElementById('studentSelect').value;
             const comment = document.getElementById('commentText').value;
 
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwhnnAs2SUn4GmUrMtEK1lhe00ZT-KblI_kKoHbGvywraCltVadebN3wib5h5p6MVMg9Q/exec', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ recipient, comment })
-            });
+            try {
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const targetUrl = 'https://script.google.com/macros/s/AKfycbwhnnAs2SUn4GmUrMtEK1lhe00ZT-KblI_kKoHbGvywraCltVadebN3wib5h5p6MVMg9Q/exec';
 
-            const result = await response.json();
-            if (result.status === 'success') {
-                alert('Comment submitted successfully!');
-                e.target.reset();
-            } else {
-                alert('Failed to submit comment.');
+                const response = await fetch(proxyUrl + targetUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ recipient, comment }),
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Comment submitted successfully!');
+                    e.target.reset();
+                } else {
+                    alert('Failed to submit comment.');
+                    console.error('Error:', result.message);
+                }
+            } catch (error) {
+                console.error('Request failed:', error);
+                alert('An error occurred. Please try again.');
             }
         });
     </script>
