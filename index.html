@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a Positive Comment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <form id="commentForm">
+        <h2>Leave a Positive Comment</h2>
+        <label for="studentSelect">Select a Student:</label>
+        <select id="studentSelect" required>
+            <option value="" disabled selected>Select a student</option>
+            <option value="Thompson, Addison">Thompson, Addison</option>
+            <option value="Gordon, Elliana">Gordon, Elliana</option>
+            <option value="Cummins, McKenna">Cummins, McKenna</option>
+            <option value="Monjaras, Navi">Monjaras, Navi</option>
+            <option value="van Klaveren, Ryan">van Klaveren, Ryan</option>
+            <option value="Briley, Braden">Briley, Braden</option>
+            <option value="Reichelt, Caleb">Reichelt, Caleb</option>
+            <option value="Crane, Joel">Crane, Joel</option>
+            <option value="Hunter, Caleb">Hunter, Caleb</option>
+            <option value="Chapin, Rachel">Chapin, Rachel</option>
+            <option value="Torres, Julio">Torres, Julio</option>
+            <option value="Sellers, Samuel">Sellers, Samuel</option>
+            <option value="Sasser, Aubree">Sasser, Aubree</option>
+            <option value="Brunkal, Grant">Brunkal, Grant</option>
+            <option value="Garcia, Jared">Garcia, Jared</option>
+            <option value="Bakina, Olga">Bakina, Olga</option>
+            <option value="Granov, Alec">Granov, Alec</option>
+            <option value="Ralston, Blake">Ralston, Blake</option>
+            <option value="Orton, Grady">Orton, Grady</option>
+            <option value="Marks, Zachary">Marks, Zachary</option>
+            <option value="Pyle, Nolan">Pyle, Nolan</option>
+            <option value="Zemanek, Rachel">Zemanek, Rachel</option>
+            <option value="Zemanek, Casey">Zemanek, Casey</option>
+            <option value="Ostrom, Sophia">Ostrom, Sophia</option>
+            <option value="Dunn, Reese">Dunn, Reese</option>
+            <option value="Hodson, Abigail">Hodson, Abigail</option>
+            <option value="Altotsky, Irina">Altotsky, Irina</option>
+            <option value="Holland, Cody">Holland, Cody</option>
+            <option value="Jensen True, Alexa">Jensen True, Alexa</option>
+            <option value="Miller, Ellie">Miller, Ellie</option>
+            <option value="Curtis, Everett">Curtis, Everett</option>
+            <option value="Case, Sam">Case, Sam</option>
+            <option value="Peña Ramos, Anthony">Peña Ramos, Anthony</option>
+            <option value="Saldivar, Zachary">Saldivar, Zachary</option>
+            <option value="Guthrie, Travis">Guthrie, Travis</option>
+            <option value="Ochoa, Ailani">Ochoa, Ailani</option>
+            <option value="Jones, Andrew">Jones, Andrew</option>
+            <option value="Warkentin, Campbell">Warkentin, Campbell</option>
+            <option value="Paz, Xzavier">Paz, Xzavier</option>
+            <option value="Cota, Jazmyn">Cota, Jazmyn</option>
+            <option value="Cota, Alexander">Cota, Alexander</option>
+            <option value="Walters, Sara">Walters, Sara</option>
+            <option value="Klopfenstein, Evelyn">Klopfenstein, Evelyn</option>
+            <option value="Ford, John">Ford, John</option>
+            <option value="May, Emma">May, Emma</option>
+            <option value="Strunk, Alijah">Strunk, Alijah</option>
+            <option value="Mack, Leah">Mack, Leah</option>
+            <option value="Barram, Sydney">Barram, Sydney</option>
+            <option value="Mack, Josiah">Mack, Josiah</option>
+            <option value="Dwight, Maya">Dwight, Maya</option>
+            <option value="McEwen, Caleb">McEwen, Caleb</option>
+            <option value="Shafer, Brody">Shafer, Brody</option>
+            <option value="Smith, Brayden">Smith, Brayden</option>
+            <option value="Smith, Rylie">Smith, Rylie</option>
+        </select>
+
+        <label for="commentText">Leave a Positive Comment:</label>
+        <textarea id="commentText" rows="4" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('commentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const recipient = document.getElementById('studentSelect').value;
+            const comment = document.getElementById('commentText').value;
+
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwhnnAs2SUn4GmUrMtEK1lhe00ZT-KblI_kKoHbGvywraCltVadebN3wib5h5p6MVMg9Q/exec', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipient, comment })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                alert('Comment submitted successfully!');
+                e.target.reset();
+            } else {
+                alert('Failed to submit comment.');
+            }
+        });
+    </script>
+</body>
+</html>
