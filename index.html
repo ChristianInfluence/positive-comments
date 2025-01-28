@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave a Positive Comment</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,70 +43,55 @@
         <h2>Leave a Positive Comment</h2>
         <label for="studentSelect">Select a Student:</label>
         <select id="studentSelect" required>
-            <option value="" disabled selected>Select a student</option>
-            <option value="Thompson, Addison">Thompson, Addison</option>
-            <option value="Gordon, Elliana">Gordon, Elliana</option>
-            <option value="Cummins, McKenna">Cummins, McKenna</option>
-            <option value="Monjaras, Navi">Monjaras, Navi</option>
-            <option value="van Klaveren, Ryan">van Klaveren, Ryan</option>
-            <option value="Briley, Braden">Briley, Braden</option>
-            <option value="Reichelt, Caleb">Reichelt, Caleb</option>
-            <option value="Crane, Joel">Crane, Joel</option>
-            <option value="Hunter, Caleb">Hunter, Caleb</option>
-            <option value="Chapin, Rachel">Chapin, Rachel</option>
-            <option value="Torres, Julio">Torres, Julio</option>
-            <option value="Sellers, Samuel">Sellers, Samuel</option>
-            <option value="Sasser, Aubree">Sasser, Aubree</option>
-            <option value="Brunkal, Grant">Brunkal, Grant</option>
-            <option value="Garcia, Jared">Garcia, Jared</option>
-            <option value="Bakina, Olga">Bakina, Olga</option>
-            <option value="Granov, Alec">Granov, Alec</option>
-            <option value="Ralston, Blake">Ralston, Blake</option>
-            <option value="Orton, Grady">Orton, Grady</option>
-            <option value="Marks, Zachary">Marks, Zachary</option>
-            <option value="Pyle, Nolan">Pyle, Nolan</option>
-            <option value="Zemanek, Rachel">Zemanek, Rachel</option>
-            <option value="Zemanek, Casey">Zemanek, Casey</option>
-            <option value="Ostrom, Sophia">Ostrom, Sophia</option>
-            <option value="Dunn, Reese">Dunn, Reese</option>
-            <option value="Hodson, Abigail">Hodson, Abigail</option>
-            <option value="Altotsky, Irina">Altotsky, Irina</option>
-            <option value="Holland, Cody">Holland, Cody</option>
-            <option value="Jensen True, Alexa">Jensen True, Alexa</option>
-            <option value="Miller, Ellie">Miller, Ellie</option>
-            <option value="Curtis, Everett">Curtis, Everett</option>
-            <option value="Case, Sam">Case, Sam</option>
-            <option value="Peña Ramos, Anthony">Peña Ramos, Anthony</option>
-            <option value="Saldivar, Zachary">Saldivar, Zachary</option>
-            <option value="Guthrie, Travis">Guthrie, Travis</option>
-            <option value="Ochoa, Ailani">Ochoa, Ailani</option>
-            <option value="Jones, Andrew">Jones, Andrew</option>
-            <option value="Warkentin, Campbell">Warkentin, Campbell</option>
-            <option value="Paz, Xzavier">Paz, Xzavier</option>
-            <option value="Cota, Jazmyn">Cota, Jazmyn</option>
-            <option value="Cota, Alexander">Cota, Alexander</option>
-            <option value="Walters, Sara">Walters, Sara</option>
-            <option value="Klopfenstein, Evelyn">Klopfenstein, Evelyn</option>
-            <option value="Ford, John">Ford, John</option>
-            <option value="May, Emma">May, Emma</option>
-            <option value="Strunk, Alijah">Strunk, Alijah</option>
-            <option value="Mack, Leah">Mack, Leah</option>
-            <option value="Barram, Sydney">Barram, Sydney</option>
-            <option value="Mack, Josiah">Mack, Josiah</option>
-            <option value="Dwight, Maya">Dwight, Maya</option>
-            <option value="McEwen, Caleb">McEwen, Caleb</option>
-            <option value="Shafer, Brody">Shafer, Brody</option>
-            <option value="Smith, Brayden">Smith, Brayden</option>
-            <option value="Smith, Rylie">Smith, Rylie</option>
+            <!-- Options will be populated by JavaScript -->
         </select>
 
         <label for="commentText">Leave a Positive Comment:</label>
-        <textarea id="commentText" rows="4" required></textarea>
+        <textarea id="commentText" rows="4" spellcheck="true" required></textarea>
 
         <button type="submit">Submit</button>
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        // List of students
+        const students = [
+            "Thompson, Addison", "Gordon, Elliana", "Cummins, McKenna", "Monjaras, Navi", 
+            "van Klaveren, Ryan", "Briley, Braden", "Reichelt, Caleb", "Crane, Joel", 
+            "Hunter, Caleb", "Chapin, Rachel", "Torres, Julio", "Sellers, Samuel", 
+            "Sasser, Aubree", "Brunkal, Grant", "Garcia, Jared", "Bakina, Olga", 
+            "Granov, Alec", "Ralston, Blake", "Orton, Grady", "Marks, Zachary", 
+            "Pyle, Nolan", "Zemanek, Rachel", "Zemanek, Casey", "Ostrom, Sophia", 
+            "Dunn, Reese", "Hodson, Abigail", "Altotsky, Irina", "Holland, Cody", 
+            "Jensen True, Alexa", "Miller, Ellie", "Curtis, Everett", "Case, Sam", 
+            "Peña Ramos, Anthony", "Saldivar, Zachary", "Guthrie, Travis", "Ochoa, Ailani", 
+            "Jones, Andrew", "Warkentin, Campbell", "Paz, Xzavier", "Cota, Jazmyn", 
+            "Cota, Alexander", "Walters, Sara", "Klopfenstein, Evelyn", "Ford, John", 
+            "May, Emma", "Strunk, Alijah", "Mack, Leah", "Barram, Sydney", "Mack, Josiah", 
+            "Dwight, Maya", "McEwen, Caleb", "Shafer, Brody", "Smith, Brayden", "Smith, Rylie"
+        ];
+
+        // Sort the students alphabetically
+        students.sort();
+
+        // Populate the student select options
+        const studentSelect = document.getElementById('studentSelect');
+        students.forEach(student => {
+            const option = document.createElement('option');
+            option.value = student;
+            option.textContent = student;
+            studentSelect.appendChild(option);
+        });
+
+        // Initialize Select2
+        $(document).ready(() => {
+            $('#studentSelect').select2({
+                placeholder: "Select a student"
+            });
+        });
+
+        // Form submission handling
         document.getElementById('commentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
