@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave a Positive Comment</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,16 +28,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        #emojiButton {
-            width: auto;
-            padding: 10px;
-            margin-top: -10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            cursor: pointer;
-        }
         button {
             background-color: #28a745;
             color: white;
@@ -58,17 +47,13 @@
         </select>
 
         <label for="commentText">Leave a Positive Comment:</label>
-        <div style="display: flex; align-items: center;">
-            <textarea id="commentText" rows="4" spellcheck="true" required></textarea>
-            <button type="button" id="emojiButton" style="margin-left: 10px;">😊</button>
-        </div>
+        <textarea id="commentText" rows="4" spellcheck="true" required></textarea>
 
         <button type="submit">Submit</button>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js"></script>
     <script>
         // List of students
         const students = [
@@ -104,19 +89,6 @@
             $('#studentSelect').select2({
                 placeholder: "Select a student"
             });
-        });
-
-        // Initialize Emoji Button
-        const picker = new EmojiButton();
-        const button = document.querySelector('#emojiButton');
-        const textarea = document.querySelector('#commentText');
-
-        button.addEventListener('click', () => {
-            picker.togglePicker(button);
-        });
-
-        picker.on('emoji', emoji => {
-            textarea.value += emoji;
         });
 
         // Form submission handling
