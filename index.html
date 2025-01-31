@@ -95,6 +95,16 @@
                 const proxyUrl = 'https://comments.javajireh.org/';
                 const targetUrl = 'https://script.google.com/macros/s/AKfycbwhnnAs2SUn4GmUrMtEK1lhe00ZT-KblI_kKoHbGvywraCltVadebN3wib5h5p6MVMg9Q/exec';
                 const response = await fetch(proxyUrl + targetUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    throw new Error(`Expected JSON, got ${text}`);
+                }
+
                 const commentCounts = await response.json();
 
                 // Sort the students alphabetically
