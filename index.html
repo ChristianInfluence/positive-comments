@@ -36,15 +36,6 @@
         button:hover {
             background-color: #218838;
         }
-        .select2-selection__rendered {
-            line-height: 31px !important;
-        }
-        .select2-container .select2-selection--single {
-            height: 36px !important;
-        }
-        .select2-selection__arrow {
-            height: 36px !important;
-        }
     </style>
 </head>
 <body>
@@ -64,6 +55,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        // List of students
         const students = [
             "Thompson, Addison", "Gordon, Elliana", "Cummins, McKenna", "Monjaras, Navi", 
             "van Klaveren, Ryan", "Briley, Braden", "Reichelt, Caleb", "Crane, Joel", 
@@ -80,59 +72,24 @@
             "Dwight, Maya", "McEwen, Caleb", "Shafer, Brody", "Smith, Brayden", "Smith, Rylie"
         ];
 
-        // Fetch comment counts and populate the student select options
-        async function populateStudentSelect() {
-            try {
-                const response = await fetch('https://comments.javajireh.org/comment-counts');
-                const commentCounts = await response.json();
+        // Sort the students alphabetically
+        students.sort();
 
-                // Sort the students alphabetically
-                students.sort();
+        // Populate the student select options
+        const studentSelect = document.getElementById('studentSelect');
+        students.forEach(student => {
+            const option = document.createElement('option');
+            option.value = student;
+            option.textContent = student;
+            studentSelect.appendChild(option);
+        });
 
-                // Populate the student select options
-                const studentSelect = document.getElementById('studentSelect');
-                students.forEach(student => {
-                    const option = document.createElement('option');
-                    const commentCount = commentCounts[student] || 0;
-                    option.value = student;
-                    option.textContent = `${student} (${commentCount})`;
-
-                    // Color coding based on comment count
-                    if (commentCount < 5) {
-                        option.style.color = 'red';
-                    } else if (commentCount < 10) {
-                        option.style.color = 'orange';
-                    } else {
-                        option.style.color = 'green';
-                    }
-
-                    studentSelect.appendChild(option);
-                });
-
-                // Initialize Select2
-                $('#studentSelect').select2({
-                    placeholder: "Select a student",
-                    templateResult: formatState,
-                    templateSelection: formatState
-                });
-            } catch (error) {
-                console.error('Error fetching comment counts:', error);
-            }
-        }
-
-        function formatState(state) {
-            if (!state.id) {
-                return state.text;
-            }
-            
-            const $state = $(
-                `<span style="color:${state.element.style.color}">${state.text}</span>`
-            );
-            return $state;
-        }
-
-        // Initialize the student select on page load
-        populateStudentSelect();
+        // Initialize Select2
+        $(document).ready(() => {
+            $('#studentSelect').select2({
+                placeholder: "Select a student"
+            });
+        });
 
         // Form submission handling
         document.getElementById('commentForm').addEventListener('submit', async (e) => {
