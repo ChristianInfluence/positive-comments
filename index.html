@@ -111,11 +111,24 @@
 
                 // Initialize Select2
                 $('#studentSelect').select2({
-                    placeholder: "Select a student"
+                    placeholder: "Select a student",
+                    templateResult: formatState,
+                    templateSelection: formatState
                 });
             } catch (error) {
                 console.error('Error fetching comment counts:', error);
             }
+        }
+
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+            
+            const $state = $(
+                `<span style="color:${state.element.style.color}">${state.text}</span>`
+            );
+            return $state;
         }
 
         // Initialize the student select on page load
