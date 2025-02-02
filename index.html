@@ -58,9 +58,35 @@
             font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            position: relative;
         }
-        button:hover {
-            background-color: #218838;
+        button.loading {
+            pointer-events: none;
+        }
+        button.loading:before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+        button.check:before {
+            content: "\2713";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         .select2-selection__rendered {
             line-height: 31px !important;
@@ -189,6 +215,10 @@
 
             const recipient = document.getElementById('studentSelect').value;
             const comment = document.getElementById('commentText').value;
+            const submitButton = e.target.querySelector('button[type="submit"]');
+
+            // Set button to loading state
+            submitButton.classList.add('loading');
 
             try {
                 const proxyUrl = 'https://comments.javajireh.org/';
@@ -202,15 +232,22 @@
 
                 const result = await response.json();
                 if (result.status === 'success') {
+                    // Change button to success state
+                    submitButton.classList.remove('loading');
+                    submitButton.classList.add('check');
                     alert('Comment submitted successfully!');
                     e.target.reset();
                 } else {
-                    alert('Failed to submit comment.');
-                    console.error('Error:', result.message);
+                    throw new Error('Failed to submit comment.');
                 }
             } catch (error) {
                 console.error('Request failed:', error);
                 alert('An error occurred. Please try again.');
+            } finally {
+                // Reset button state after 2 seconds
+                setTimeout(() => {
+                    submitButton.classList.remove('loading', 'check');
+                }, 2000);
             }
         });
     </script>
