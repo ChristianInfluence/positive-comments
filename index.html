@@ -150,7 +150,18 @@
             menubar: false,
             plugins: 'link lists',
             toolbar: 'undo redo | bold italic underline | bullist numlist | link',
-            height: 200
+            height: 200,
+            setup: function(editor) {
+                editor.on('init', function() {
+                    editor.getContainer().style.transition = 'box-shadow 0.3s ease';
+                });
+                editor.on('focus', function() {
+                    editor.getContainer().style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.1)';
+                });
+                editor.on('blur', function() {
+                    editor.getContainer().style.boxShadow = '';
+                });
+            }
         });
 
         const students = [
