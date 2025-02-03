@@ -6,6 +6,7 @@
     <title>Leave a Positive Comment</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -144,6 +145,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        tinymce.init({
+            selector: '#commentText',
+            menubar: false,
+            plugins: 'link lists',
+            toolbar: 'undo redo | bold italic underline | bullist numlist | link',
+            height: 200
+        });
+
         const students = [
             "Thompson, Addison", "Gordon, Elliana", "Cummins, McKenna", "Monjaras, Navi", 
             "van Klaveren, Ryan", "Briley, Braden", "Reichelt, Caleb", "Crane, Joel", 
@@ -231,7 +240,7 @@
             e.preventDefault();
 
             const recipient = document.getElementById('studentSelect').value;
-            const comment = document.getElementById('commentText').value;
+            const comment = tinymce.get('commentText').getContent(); // Get the content from TinyMCE
             const submitButton = e.target.querySelector('button[type="submit"]');
 
             // Set button to loading state
@@ -254,6 +263,7 @@
                     submitButton.classList.add('check');
                     alert('Comment submitted successfully!');
                     e.target.reset();
+                    tinymce.get('commentText').setContent(''); // Clear the TinyMCE editor
                 } else {
                     throw new Error('Failed to submit comment.');
                 }
