@@ -6,7 +6,6 @@
     <title>Leave a Positive Comment</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tiny.cloud/1/zhf4w6gh0pyn5nkazp67m1cv3w0shg0968s9q6hq6fbi2b0v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -26,6 +25,9 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         form:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -38,6 +40,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
+            width: 100%;
         }
         input, select, textarea, button {
             width: 100%;
@@ -131,7 +134,7 @@
         </select>
 
         <label for="commentText">Leave a Positive Comment:</label>
-        <textarea id="commentText" rows="4" spellcheck="true"></textarea>
+        <textarea id="commentText" rows="4" spellcheck="true" required></textarea>
 
         <button type="submit">Submit</button>
         
@@ -145,25 +148,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        tinymce.init({
-            selector: '#commentText',
-            menubar: false,
-            plugins: 'link lists',
-            toolbar: 'undo redo | bold italic underline | bullist numlist | link',
-            height: 200,
-            setup: function(editor) {
-                editor.on('init', function() {
-                    editor.getContainer().style.transition = 'box-shadow 0.3s ease';
-                });
-                editor.on('focus', function() {
-                    editor.getContainer().style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.1)';
-                });
-                editor.on('blur', function() {
-                    editor.getContainer().style.boxShadow = '';
-                });
-            }
-        });
-
         const students = [
             "Thompson, Addison", "Gordon, Elliana", "Cummins, McKenna", "Monjaras, Navi", 
             "van Klaveren, Ryan", "Briley, Braden", "Reichelt, Caleb", "Crane, Joel", 
@@ -251,10 +235,10 @@
             e.preventDefault();
 
             const recipient = document.getElementById('studentSelect').value;
-            const comment = tinymce.get('commentText').getContent(); // Get the content from TinyMCE
+            const comment = document.getElementById('commentText').value;
             const submitButton = e.target.querySelector('button[type="submit"]');
 
-            // Custom validation for TinyMCE content
+            // Custom validation for textarea content
             if (comment.trim() === '') {
                 alert('Please enter a comment.');
                 return;
@@ -280,7 +264,6 @@
                     submitButton.classList.add('check');
                     alert('Comment submitted successfully!');
                     e.target.reset();
-                    tinymce.get('commentText').setContent(''); // Clear the TinyMCE editor
                 } else {
                     throw new Error('Failed to submit comment.');
                 }
