@@ -108,6 +108,17 @@
         .high-engagement {
             background-color: #d4edda;
         }
+        .legend {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .legend span {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +133,12 @@
         <textarea id="commentText" rows="4" spellcheck="true" required></textarea>
 
         <button type="submit">Submit</button>
+        
+        <div class="legend">
+            <div><span class="low-engagement"></span> Less than 5 comments</div>
+            <div><span class="medium-engagement"></span> 5 to 9 comments</div>
+            <div><span class="high-engagement"></span> 10 or more comments</div>
+        </div>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -170,7 +187,7 @@
                     const option = document.createElement('option');
                     const commentCount = commentCounts[student] || 0;
                     option.value = student;
-                    option.textContent = `${student} (${commentCount})`;
+                    option.textContent = student; // Remove the comment count from the text
 
                     // Color coding based on comment count
                     if (commentCount < 5) {
