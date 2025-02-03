@@ -131,7 +131,7 @@
         </select>
 
         <label for="commentText">Leave a Positive Comment:</label>
-        <textarea id="commentText" rows="4" spellcheck="true" required></textarea>
+        <textarea id="commentText" rows="4" spellcheck="true"></textarea>
 
         <button type="submit">Submit</button>
         
@@ -242,6 +242,12 @@
             const recipient = document.getElementById('studentSelect').value;
             const comment = tinymce.get('commentText').getContent(); // Get the content from TinyMCE
             const submitButton = e.target.querySelector('button[type="submit"]');
+
+            // Custom validation for TinyMCE content
+            if (comment.trim() === '') {
+                alert('Please enter a comment.');
+                return;
+            }
 
             // Set button to loading state
             submitButton.classList.add('loading');
